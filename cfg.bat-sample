@@ -1,0 +1,9 @@
+REM set proxy=xx.xx.xx.xx:xxxx
+REM set http_proxy=http://%proxy%/
+REM set https_proxy=http://%proxy%/
+set TOKEN_ID=xxxx
+set TOKEN_PSK=xxxx
+set PROJECT=eu-de
+set DOMAIN=xxxx
+set AUTH_URL=https://iam.eu-de.otc.t-systems.com:443/v3
+set RESOURCE_ID=xxxx

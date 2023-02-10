@@ -1,0 +1,8 @@
+
+export \
+	TOKEN_ID=xxxx \
+	TOKEN_PSK=xxxx \
+	PROJECT=eu-de \
+	DOMAIN=xxxx \
+	AUTH_URL=https://iam.eu-de.otc.t-systems.com:443/v3 \
+	RESOURCE_ID=xxxx
