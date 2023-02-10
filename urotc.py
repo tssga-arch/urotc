@@ -167,7 +167,8 @@ if __name__ == '__main__':
                         add_help = False)
   cli.add_argument('-d','--debug', help='Enable debugging',action='store_true')
   if has_winreg:
-    cli.add_argument('--','--show-proxy-autocfg', dest='dump_autocfg', help='Show proxy autocfg script', action='store_true')
+    cli.add_argument('--show-proxy-autocfg', dest='dump_autocfg', help='Show proxy autocfg script', action='store_true')
+    cli.add_argument('-A','--proxy-autocfg', dest='autocfg', help='Automatically guess proxy', action='store_true')
   subs = cli.add_subparsers()
 
   start_cli = subs.add_parser('start', help='Start VM')
@@ -197,6 +198,14 @@ if __name__ == '__main__':
     if len(errs) > 0:
       sys.stderr.write('Missing environment variables: {vars}\n'.format( vars=str(errs) ))
       sys.exit(54)
+
+    if args.autocfg:
+      proxy, url, jstext = proxy_auto_cfg()
+      if proxy:
+        os.environ['http_proxy'] = 'http://{proxy}/'.format(proxy=proxy)
+        os.environ['https_proxy'] = 'http://{proxy}/'.format(proxy=proxy)
+        if args.debug:
+          sys.stderr.write('Using proxy: {proxy}\n'.format(proxy=proxy))
 
     cloud = openstack.connect(auth = {
       "username": cf['TOKEN_ID'],
