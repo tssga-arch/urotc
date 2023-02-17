@@ -161,7 +161,7 @@ def show_autocfg(args):
 #
 ###################################################################
 
-if __name__ == '__main__':
+def main(opts=None):
   cli = ArgumentParser(prog='UrOTC',
                         description='Your OTC operational calls',
                         add_help = False)
@@ -189,15 +189,20 @@ if __name__ == '__main__':
   if args.debug: openstack.enable_logging(debug=True)
 
   if 'func' in args:
-    cf = {}
-    errs = []
-    for k in ('TOKEN_ID','TOKEN_PSK', 'DOMAIN', 'PROJECT', 'AUTH_URL', 'RESOURCE_ID'):
-      cf[k] = os.getenv(k)
-      if not cf: errs.append(k)
+    if opts:
+      cf = opts
+      if args.debug: sys.stderr.write('Configured from .cfg\n')
+    else:
+      if args.debug: sys.stderr.write('Configuring from ENV\n')
+      cf = {}
+      errs = []
+      for k in ('TOKEN_ID','TOKEN_PSK', 'DOMAIN', 'PROJECT', 'AUTH_URL', 'RESOURCE_ID'):
+        cf[k] = os.getenv(k)
+        if not cf[k]: errs.append(k)
 
-    if len(errs) > 0:
-      sys.stderr.write('Missing environment variables: {vars}\n'.format( vars=str(errs) ))
-      sys.exit(54)
+      if len(errs) > 0:
+        sys.stderr.write('Missing environment variables: {vars}\n'.format( vars=str(errs) ))
+        sys.exit(54)
 
     if args.autocfg:
       proxy, url, jstext = proxy_auto_cfg()
@@ -221,5 +226,13 @@ if __name__ == '__main__':
       if args.dump_autocfg:
         show_autocfg(args)
         sys.exit(0)
+    if args.debug:
+      if opts:
+        sys.stderr.write('Configured from .cfg\n')
+      else:
+        sys.stderr.write('Configuring from ENV\n')
     cli.print_help()
+
+if __name__ == '__main__':
+  main()
 

@@ -14,6 +14,9 @@ rd/s/q build
 rd/s/q dist
 del urotc.spec
 
+echo Embedding random key
+python prep.py priv.py kurotc.py
+
 @echo on
 pyinstaller %buildtype% ^
   --hidden-import keystoneauth1 ^
@@ -28,7 +31,7 @@ pyinstaller %buildtype% ^
   --hidden-import keystoneauth1.loading._plugins ^
   --hidden-import keystoneauth1.loading._plugins.identity ^
   --hidden-import keystoneauth1.loading._plugins.identity.generic ^
-  urotc.py
+  kurotc.py
 @echo off
 REM ~ --hidden-import MODULENAME, --hiddenimport MODULENAME
 REM ~ --collect-submodules MODULENAME

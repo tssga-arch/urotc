@@ -4,6 +4,7 @@ log.txt
 *.spec
 build
 dist
+kurotc.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
