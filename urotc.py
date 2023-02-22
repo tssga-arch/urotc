@@ -204,7 +204,7 @@ def main(opts=None):
         sys.stderr.write('Missing environment variables: {vars}\n'.format( vars=str(errs) ))
         sys.exit(54)
 
-    if args.autocfg:
+    if has_winreg and args.autocfg:
       proxy, url, jstext = proxy_auto_cfg()
       if proxy:
         os.environ['http_proxy'] = 'http://{proxy}/'.format(proxy=proxy)
